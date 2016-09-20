@@ -15,121 +15,14 @@ namespace Nop.Data.Tests.Catalog
         [Test]
         public void Can_save_and_load_product()
         {
-            var product = new Product
-            {
-                ProductType = ProductType.GroupedProduct,
-                ParentGroupedProductId = 2,
-                VisibleIndividually = true,
-                Name = "Name 1",
-                ShortDescription = "ShortDescription 1",
-                FullDescription = "FullDescription 1",
-                AdminComment = "AdminComment 1",
-                VendorId = 1,
-                ProductTemplateId = 2,
-                ShowOnHomePage = false,
-                MetaKeywords = "Meta keywords",
-                MetaDescription = "Meta description",
-                MetaTitle = "Meta title",
-                AllowCustomerReviews = true,
-                ApprovedRatingSum = 2,
-                NotApprovedRatingSum = 3,
-                ApprovedTotalReviews = 4,
-                NotApprovedTotalReviews = 5,
-                SubjectToAcl = true,
-                LimitedToStores = true,
-                Sku = "sku 1",
-                ManufacturerPartNumber = "manufacturerPartNumber",
-                Gtin = "gtin 1",
-                IsGiftCard = true,
-                GiftCardTypeId = 1,
-                OverriddenGiftCardAmount = 1,
-                IsDownload = true,
-                DownloadId = 2,
-                UnlimitedDownloads = true,
-                MaxNumberOfDownloads = 3,
-                DownloadExpirationDays = 4,
-                DownloadActivationTypeId = 5,
-                HasSampleDownload = true,
-                SampleDownloadId = 6,
-                HasUserAgreement = true,
-                UserAgreementText = "userAgreementText",
-                IsRecurring = true,
-                RecurringCycleLength = 7,
-                RecurringCyclePeriodId = 8,
-                RecurringTotalCycles = 9,
-                IsRental = true,
-                RentalPriceLength = 9,
-                RentalPricePeriodId = 10,
-                IsShipEnabled = true,
-                IsFreeShipping = true,
-                ShipSeparately = true,
-                AdditionalShippingCharge = 10.1M,
-                DeliveryDateId = 5,
-                IsTaxExempt = true,
-                TaxCategoryId = 11,
-                IsTelecommunicationsOrBroadcastingOrElectronicServices = true,
-                ManageInventoryMethodId = 12,
-                UseMultipleWarehouses = true,
-                WarehouseId = 6,
-                StockQuantity = 13,
-                DisplayStockAvailability = true,
-                DisplayStockQuantity = true,
-                MinStockQuantity = 14,
-                LowStockActivityId = 15,
-                NotifyAdminForQuantityBelow = 16,
-                BackorderModeId = 17,
-                AllowBackInStockSubscriptions = true,
-                OrderMinimumQuantity = 18,
-                OrderMaximumQuantity = 19,
-                AllowedQuantities = "1, 5,6,10",
-                AllowAddingOnlyExistingAttributeCombinations = true,
-                NotReturnable = true,
-                DisableBuyButton = true,
-                DisableWishlistButton = true,
-                AvailableForPreOrder = true,
-                PreOrderAvailabilityStartDateTimeUtc = new DateTime(2010, 01, 01),
-                CallForPrice = true,
-                Price = 21.1M,
-                OldPrice = 22.1M,
-                ProductCost = 23.1M,
-                SpecialPrice = 32.1M,
-                SpecialPriceStartDateTimeUtc = new DateTime(2010, 01, 05),
-                SpecialPriceEndDateTimeUtc = new DateTime(2010, 01, 06),
-                CustomerEntersPrice = true,
-                MinimumCustomerEnteredPrice = 24.1M,
-                MaximumCustomerEnteredPrice = 25.1M,
-                BasepriceEnabled = true,
-                BasepriceAmount = 33.1M,
-                BasepriceUnitId = 4,
-                BasepriceBaseAmount = 34.1M,
-                BasepriceBaseUnitId = 5,
-                MarkAsNew = true,
-                MarkAsNewStartDateTimeUtc = new DateTime(2010, 01, 07),
-                MarkAsNewEndDateTimeUtc = new DateTime(2010, 01, 08),
-                HasTierPrices = true,
-                HasDiscountsApplied = true,
-                Weight = 26.1M,
-                Length = 27.1M,
-                Width = 28.1M,
-                Height = 29.1M,
-                AvailableStartDateTimeUtc = new DateTime(2010, 01, 01),
-                AvailableEndDateTimeUtc = new DateTime(2010, 01, 02),
-                RequireOtherProducts = true,
-                RequiredProductIds = "1,2,3",
-                AutomaticallyAddRequiredProducts = true,
-                DisplayOrder = 30,
-                Published = true,
-                Deleted = false,
-                CreatedOnUtc = new DateTime(2010, 01, 01),
-                UpdatedOnUtc = new DateTime(2010, 01, 02),
-            };
+            var product = TestsData.GetProduct;
             
             var fromDb = SaveAndLoadEntity(product);
             fromDb.ShouldNotBeNull();
             fromDb.ProductType.ShouldEqual(ProductType.GroupedProduct);
             fromDb.ParentGroupedProductId.ShouldEqual(2);
             fromDb.VisibleIndividually.ShouldEqual(true);
-            fromDb.Name.ShouldEqual("Name 1");
+            fromDb.Name.ShouldEqual("Product name 1");
             fromDb.ShortDescription.ShouldEqual("ShortDescription 1");
             fromDb.FullDescription.ShouldEqual("FullDescription 1");
             fromDb.AdminComment.ShouldEqual("AdminComment 1");
@@ -168,7 +61,7 @@ namespace Nop.Data.Tests.Catalog
             fromDb.RecurringTotalCycles.ShouldEqual(9);
             fromDb.IsRental.ShouldEqual(true);
             fromDb.RentalPriceLength.ShouldEqual(9);
-            fromDb.RentalPricePeriodId.ShouldEqual(10);
+            fromDb.RentalPricePeriodId.ShouldEqual(0);
             fromDb.IsShipEnabled.ShouldEqual(true);
             fromDb.IsFreeShipping.ShouldEqual(true);
             fromDb.ShipSeparately.ShouldEqual(true);
@@ -177,7 +70,7 @@ namespace Nop.Data.Tests.Catalog
             fromDb.IsTaxExempt.ShouldEqual(true);
             fromDb.TaxCategoryId.ShouldEqual(11);
             fromDb.IsTelecommunicationsOrBroadcastingOrElectronicServices.ShouldEqual(true);
-            fromDb.ManageInventoryMethodId.ShouldEqual(12);
+            fromDb.ManageInventoryMethodId.ShouldEqual(1);
             fromDb.UseMultipleWarehouses.ShouldEqual(true);
             fromDb.WarehouseId.ShouldEqual(6);
             fromDb.StockQuantity.ShouldEqual(13);
@@ -190,7 +83,7 @@ namespace Nop.Data.Tests.Catalog
             fromDb.AllowBackInStockSubscriptions.ShouldEqual(true);
             fromDb.OrderMinimumQuantity.ShouldEqual(18);
             fromDb.OrderMaximumQuantity.ShouldEqual(19);
-            fromDb.AllowedQuantities.ShouldEqual("1, 5,6,10");
+            fromDb.AllowedQuantities.ShouldEqual("1, 5,4,10,sdf");
             fromDb.AllowAddingOnlyExistingAttributeCombinations.ShouldEqual(true);
             fromDb.NotReturnable.ShouldEqual(true);
             fromDb.DisableBuyButton.ShouldEqual(true);
@@ -222,15 +115,15 @@ namespace Nop.Data.Tests.Catalog
             fromDb.Width.ShouldEqual(28.1M);
             fromDb.Height.ShouldEqual(29.1M);
             fromDb.AvailableStartDateTimeUtc.ShouldEqual(new DateTime(2010, 01, 01));
-            fromDb.AvailableEndDateTimeUtc.ShouldEqual(new DateTime(2010, 01, 02));
+            fromDb.AvailableEndDateTimeUtc.ShouldEqual(new DateTime(2010, 01, 03));
             fromDb.RequireOtherProducts.ShouldEqual(true);
-            fromDb.RequiredProductIds.ShouldEqual("1,2,3");
+            fromDb.RequiredProductIds.ShouldEqual("1, 4,7 ,a,");
             fromDb.AutomaticallyAddRequiredProducts.ShouldEqual(true);
             fromDb.DisplayOrder.ShouldEqual(30);
             fromDb.Published.ShouldEqual(true);
             fromDb.Deleted.ShouldEqual(false);
-            fromDb.CreatedOnUtc.ShouldEqual(new DateTime(2010, 01, 01));
-            fromDb.UpdatedOnUtc.ShouldEqual(new DateTime(2010, 01, 02));
+            fromDb.CreatedOnUtc.ShouldEqual(new DateTime(2010, 01, 03));
+            fromDb.UpdatedOnUtc.ShouldEqual(new DateTime(2010, 01, 04));
         }
 
         [Test]

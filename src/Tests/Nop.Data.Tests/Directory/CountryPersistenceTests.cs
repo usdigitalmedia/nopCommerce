@@ -12,19 +12,7 @@ namespace Nop.Data.Tests.Directory
         [Test]
         public void Can_save_and_load_country()
         {
-            var country = new Country
-            {
-                Name = "United States",
-                AllowsBilling = true,
-                AllowsShipping = true,
-                TwoLetterIsoCode = "US",
-                ThreeLetterIsoCode = "USA",
-                NumericIsoCode = 1,
-                SubjectToVat = true,
-                Published = true,
-                DisplayOrder = 1,
-                LimitedToStores = true
-            };
+            var country = TestsData.GetCountry;
 
             var fromDb = SaveAndLoadEntity(country);
             fromDb.ShouldNotBeNull();
@@ -43,59 +31,26 @@ namespace Nop.Data.Tests.Directory
         [Test]
         public void Can_save_and_load_country_with_states()
         {
-            var country = new Country
-            {
-                Name = "United States",
-                AllowsBilling = true,
-                AllowsShipping = true,
-                TwoLetterIsoCode = "US",
-                ThreeLetterIsoCode = "USA",
-                NumericIsoCode = 1,
-                SubjectToVat = true,
-                Published = true,
-                DisplayOrder = 1
-            };
-            country.StateProvinces.Add
-                (
-                    new StateProvince
-                    {
-                        Name = "California",
-                        Abbreviation = "CA",
-                        DisplayOrder = 1
-                    }
-                );
+            var country = TestsData.GetCountry;
+            country.StateProvinces.Add(TestsData.GetStateProvince);
+
             var fromDb = SaveAndLoadEntity(country);
             fromDb.ShouldNotBeNull();
             fromDb.Name.ShouldEqual("United States");
 
             fromDb.StateProvinces.ShouldNotBeNull();
             (fromDb.StateProvinces.Count == 1).ShouldBeTrue();
-            fromDb.StateProvinces.First().Name.ShouldEqual("California");
+            fromDb.StateProvinces.First().Name.ShouldEqual("Louisiana");
         }
 
         [Test]
         public void Can_save_and_load_country_with_restrictions()
         {
-            var country = new Country
-            {
-                Name = "United States",
-                AllowsBilling = true,
-                AllowsShipping = true,
-                TwoLetterIsoCode = "US",
-                ThreeLetterIsoCode = "USA",
-                NumericIsoCode = 1,
-                SubjectToVat = true,
-                Published = true,
-                DisplayOrder = 1
-            };
-            country.RestrictedShippingMethods.Add
-                (
-                    new ShippingMethod
-                    {
-                        Name = "By train",
-                    }
-                );
+            var country = TestsData.GetCountry;
+
+            country.RestrictedShippingMethods.Add(TestsData.GetShippingMethod);
             var fromDb = SaveAndLoadEntity(country);
+
             fromDb.ShouldNotBeNull();
             fromDb.Name.ShouldEqual("United States");
 

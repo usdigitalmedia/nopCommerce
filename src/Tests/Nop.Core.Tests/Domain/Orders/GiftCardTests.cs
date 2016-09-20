@@ -10,36 +10,7 @@ namespace Nop.Core.Tests.Domain.Orders
         [Test]
         public void Can_validate_giftCard()
         {
-
-            var gc = new GiftCard
-            {
-                Amount = 100,
-                IsGiftCardActivated = true
-            };
-            gc.GiftCardUsageHistory.Add
-                (
-                    new GiftCardUsageHistory
-                    {
-                        UsedValue = 30
-                    }
-
-                );
-            gc.GiftCardUsageHistory.Add
-                (
-                    new GiftCardUsageHistory
-                    {
-                        UsedValue = 20
-                    }
-
-                );
-            gc.GiftCardUsageHistory.Add
-                (
-                    new GiftCardUsageHistory
-                    {
-                        UsedValue = 5
-                    }
-
-                );
+            var gc = TestsData.GetGiftCard(true);
 
             //valid
             gc.IsGiftCardValid().ShouldEqual(true);
@@ -63,34 +34,7 @@ namespace Nop.Core.Tests.Domain.Orders
         [Test]
         public void Can_calculate_giftCard_remainingAmount()
         {
-            var gc = new GiftCard
-            {
-                Amount = 100
-            };
-            gc.GiftCardUsageHistory.Add
-                (
-                    new GiftCardUsageHistory
-                    {
-                        UsedValue = 30
-                    }
-
-                );
-            gc.GiftCardUsageHistory.Add
-                (
-                    new GiftCardUsageHistory
-                    {
-                        UsedValue = 20
-                    }
-
-                );
-            gc.GiftCardUsageHistory.Add
-                (
-                    new GiftCardUsageHistory
-                    {
-                        UsedValue = 5
-                    }
-
-                );
+            var gc = TestsData.GetGiftCard(false);
 
             gc.GetGiftCardRemainingAmount().ShouldEqual(45);
         }

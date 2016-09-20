@@ -1,5 +1,4 @@
 ﻿using System;
-using Nop.Core.Domain.Messages;
 using Nop.Tests;
 using NUnit.Framework;
 
@@ -11,24 +10,14 @@ namespace Nop.Data.Tests.Messages
         [Test]
         public void Can_save_and_load_nls()
         {
-            var newGuid = Guid.NewGuid();
-            var now = new DateTime(2010, 01, 01);
-
-            var nls = new NewsLetterSubscription
-            {
-                Email = "me@yourstore.com",
-                NewsLetterSubscriptionGuid = newGuid,
-                CreatedOnUtc = now,
-                StoreId = 1,
-                Active = true
-            };
+            var nls = TestsData.GetNewsLetterSubscription;
 
             var fromDb = SaveAndLoadEntity(nls);
             fromDb.ShouldNotBeNull();
             fromDb.Email.ShouldEqual("me@yourstore.com");
-            fromDb.NewsLetterSubscriptionGuid.ShouldEqual(newGuid);
+            fromDb.NewsLetterSubscriptionGuid.ShouldEqual(nls.NewsLetterSubscriptionGuid);
             fromDb.StoreId.ShouldEqual(1);
-            fromDb.CreatedOnUtc.ShouldEqual(now);
+            fromDb.CreatedOnUtc.ShouldEqual(new DateTime(2010, 01, 01));
             fromDb.Active.ShouldBeTrue();
         }
     }

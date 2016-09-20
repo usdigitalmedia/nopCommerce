@@ -94,11 +94,10 @@ namespace Nop.Tests
         /// <param name="expected"></param>
         public static void AssertSameStringAs(this string actual, string expected)
         {
-            if (!string.Equals(actual, expected, StringComparison.InvariantCultureIgnoreCase))
-            {
-                var message = string.Format("Expected {0} but was {1}", expected, actual);
-                throw new AssertionException(message);
-            }
+            if (string.Equals(actual, expected, StringComparison.InvariantCultureIgnoreCase)) return;
+
+            var message = string.Format("Expected {0} but was {1}", expected, actual);
+            throw new AssertionException(message);
         }
     }
 }

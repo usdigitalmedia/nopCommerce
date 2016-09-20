@@ -1,5 +1,4 @@
-﻿using Nop.Core.Domain.Localization;
-using Nop.Tests;
+﻿using Nop.Tests;
 using NUnit.Framework;
 
 namespace Nop.Data.Tests.Localization
@@ -10,19 +9,8 @@ namespace Nop.Data.Tests.Localization
         [Test]
         public void Can_save_and_load_lst()
         {
-            var lst = new LocaleStringResource
-            {
-                ResourceName = "ResourceName1",
-                ResourceValue = "ResourceValue2",
-                Language = new Language
-                               {
-                                   Name = "English",
-                                   LanguageCulture = "en-Us",
-                                   FlagImageFileName = "us.png",
-                                   Published = true,
-                                   DisplayOrder = 1
-                               }
-            };
+            var lst = TestsData.GeLocaleStringResource;
+            lst.Language = TestsData.GetLanguage;
 
             var fromDb = SaveAndLoadEntity(lst);
             fromDb.ShouldNotBeNull();

@@ -1,8 +1,4 @@
-﻿using System;
-using Nop.Core.Domain.Customers;
-using Nop.Core.Domain.Forums;
-using Nop.Core.Domain.Stores;
-using Nop.Tests;
+﻿using Nop.Tests;
 using NUnit.Framework;
 
 namespace Nop.Data.Tests.Forums
@@ -13,30 +9,19 @@ namespace Nop.Data.Tests.Forums
         [Test]
         public void Can_save_and_load_privatemessage()
         {
-            var store = GetTestStore();
+            var store = TestsData.GetStore;
             var storeFromDb = SaveAndLoadEntity(store);
             storeFromDb.ShouldNotBeNull();
 
-            var customer1 = GetTestCustomer();
+            var customer1 = TestsData.GetCustomer();
             var customer1FromDb = SaveAndLoadEntity(customer1);
             customer1FromDb.ShouldNotBeNull();
 
-            var customer2 = GetTestCustomer();
+            var customer2 = TestsData.GetCustomer();
             var customer2FromDb = SaveAndLoadEntity(customer2);
             customer2FromDb.ShouldNotBeNull();
 
-            var privateMessage = new PrivateMessage
-            {
-                Subject = "Private Message 1 Subject",
-                Text = "Private Message 1 Text",
-                IsDeletedByAuthor = false,
-                IsDeletedByRecipient = false,
-                IsRead = false,
-                CreatedOnUtc = DateTime.UtcNow,
-                FromCustomerId = customer1FromDb.Id,
-                ToCustomerId = customer2FromDb.Id,
-                StoreId = store.Id,
-            };
+            var privateMessage = TestsData.GetPrivateMessage(customer1FromDb, customer2FromDb, storeFromDb);
 
             var fromDb = SaveAndLoadEntity(privateMessage);
             fromDb.ShouldNotBeNull();
@@ -45,29 +30,6 @@ namespace Nop.Data.Tests.Forums
             fromDb.IsDeletedByAuthor.ShouldBeFalse();
             fromDb.IsDeletedByRecipient.ShouldBeFalse();
             fromDb.IsRead.ShouldBeFalse();
-        }
-
-        protected Customer GetTestCustomer()
-        {
-            return new Customer
-            {
-                CustomerGuid = Guid.NewGuid(),
-                AdminComment = "some comment here",
-                Active = true,
-                Deleted = false,
-                CreatedOnUtc = new DateTime(2010, 01, 01),
-                LastActivityDateUtc = new DateTime(2010, 01, 02)
-            };
-        }
-
-        protected Store GetTestStore()
-        {
-            return new Store
-            {
-                Name = "Store 1",
-                Url = "http://www.test.com",
-                DisplayOrder = 1
-            };
         }
     }
 }

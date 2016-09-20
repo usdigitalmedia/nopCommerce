@@ -10,10 +10,7 @@ namespace Nop.Core.Tests.Domain.Stores
         [Test]
         public void Can_parse_host_values()
         {
-            var store = new Store
-            {
-                Hosts = "yourstore.com, www.yourstore.com, "
-            };
+            var store = TestsData.GetStore;
 
             var hosts = store.ParseHostValues();
             hosts.Length.ShouldEqual(2);
@@ -24,10 +21,7 @@ namespace Nop.Core.Tests.Domain.Stores
         [Test]
         public void Can_find_host_value()
         {
-            var store = new Store
-            {
-                Hosts = "yourstore.com, www.yourstore.com, "
-            };
+            var store = TestsData.GetStore;
 
             store.ContainsHostValue(null).ShouldEqual(false);
             store.ContainsHostValue("").ShouldEqual(false);
