@@ -26,6 +26,8 @@
 <script type="text/javascript">
     $(document).ready(function() {
         $("#@Html.FieldIdFor(model => model.AttributeValueTypeId)").change(toggleProductType);
+        $("#@Html.FieldIdFor(model => model.UserDefinedQuantity)").change(toggleUserDefinedQty);
+        toggleUserDefinedQty();
         toggleProductType();
     });
 
@@ -33,17 +35,28 @@
         var selectedProductTypeId = $("#@Html.FieldIdFor(model => model.AttributeValueTypeId)").val();
         if (selectedProductTypeId == @(((int) AttributeValueType.Simple).ToString())) {
             $('#group-associated-product').hide();
+        $('#group-user-defined-qty').hide();
         $('#group-quantity').hide();
         $('#group-price-adjustment').show();
         $('#group-weight-adjustment').show();
         $('#group-cost').show();
     } else if (selectedProductTypeId == @(((int) AttributeValueType.AssociatedToProduct).ToString())) {
         $('#group-associated-product').show();
+        $('#group-user-defined-qty').show();
         $('#group-quantity').show();
         $('#group-price-adjustment').hide();
         $('#group-weight-adjustment').hide();
         $('#group-cost').hide();
     }
+    };
+
+    function toggleUserDefinedQty() {
+        if ($("#@Html.FieldIdFor(model => model.UserDefinedQuantity)").is(':checked')) {
+            $('#group-quantity').hide();
+        }
+        else {
+            $('#group-quantity').show();
+        }
     }
 </script>
 
@@ -72,6 +85,15 @@
                             <button type="submit" onclick="javascript:OpenWindow('@(Url.Action("AssociateProductToAttributeValuePopup", "Product", new {productIdInput = Html.FieldIdFor(model => model.AssociatedProductId), productNameInput = "associate-product-name"}))', 800, 850, true); return false;" class="btn btn-primary">
                                 @T("Admin.Catalog.Products.ProductAttributes.Attributes.Values.Fields.AssociatedProduct.AddNew")
                             </button>
+                        </div>
+                    </div>
+                    <div class="form-group" id="group-user-defined-qty">
+                        <div class="col-md-3">
+                            @Html.NopLabelFor(model => model.UserDefinedQuantity)
+                        </div>
+                        <div class="col-md-9">
+                            @Html.NopEditorFor(model => model.UserDefinedQuantity)
+                            @Html.ValidationMessageFor(model => model.UserDefinedQuantity)
                         </div>
                     </div>
                     <div class="form-group" id="group-quantity">

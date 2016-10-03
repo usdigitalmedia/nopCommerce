@@ -21,8 +21,9 @@ namespace Nop.Services.Catalog
         /// Get product attribute values
         /// </summary>
         /// <param name="attributesXml">Attributes in XML format</param>
+        /// <param name="productAttributeMappingId">Product attribute mapping identifier; pass 0 to load all values</param>
         /// <returns>Product attribute values</returns>
-        IList<ProductAttributeValue> ParseProductAttributeValues(string attributesXml);
+        IList<ProductAttributeValue> ParseProductAttributeValues(string attributesXml, int productAttributeMappingId = 0);
 
         /// <summary>
         /// Gets selected product attribute values
@@ -38,8 +39,9 @@ namespace Nop.Services.Catalog
         /// <param name="attributesXml">Attributes in XML format</param>
         /// <param name="productAttributeMapping">Product attribute mapping</param>
         /// <param name="value">Value</param>
+        /// <param name="quantity">Quantity (used with AttributeValueType.AssociatedToProduct to specify the quantity entered by the customer)</param>
         /// <returns>Updated result (XML format)</returns>
-        string AddProductAttribute(string attributesXml, ProductAttributeMapping productAttributeMapping, string value);
+        string AddProductAttribute(string attributesXml, ProductAttributeMapping productAttributeMapping, string value, int? quantity = null);
 
         /// <summary>
         /// Remove an attribute

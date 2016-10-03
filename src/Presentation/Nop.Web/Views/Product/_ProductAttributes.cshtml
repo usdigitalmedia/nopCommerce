@@ -41,10 +41,31 @@
                             {
                                 var attributeName = String.IsNullOrEmpty(attributeValue.PriceAdjustment) ?
                                     attributeValue.Name :
-                                    T("Products.ProductAttributes.PriceAdjustment", attributeValue.Name, attributeValue.PriceAdjustment).Text;
+                                    T("Products.ProductAttributes.PriceAdjustment", attributeValue.Name, attributeValue.PriceAdjustment,
+                                        attributeValue.UserDefinedQuantity ? T("Products.ProductAttributes.PriceAdjustment.PerItem").Text : string.Empty).Text;
                                 <option selected="@attributeValue.IsPreSelected" value="@attributeValue.Id">@attributeName</option>
                             }
                         </select>
+                        foreach (var attributeValue in attribute.Values.Where(value => value.UserDefinedQuantity))
+                        {
+                            <div id="@(controlId)_@(attributeValue.Id)_qty_box" style="display:inline">
+                                <label for="@(controlId)_@(attributeValue.Id)_qty">@(T("Products.ProductAttributes.PriceAdjustment.Quantity").Text)</label>
+                                <input name="@(controlId)_@(attributeValue.Id)_qty" type="number" min="1" class="textbox" id="@(controlId)_@(attributeValue.Id)_qty" value="@(attributeValue.Quantity)"/>
+                            </div>
+                        }
+                        <script>
+                            $(document).ready(function() {
+                                $('select[name=@(controlId)]').change(showHideDropdownQuantity);
+                                showHideDropdownQuantity();
+                            });
+
+                            function showHideDropdownQuantity() {
+                                $('select[name=@(controlId)] > option').each(function() {
+                                    $('#@(controlId)_' + this.value + '_qty_box').hide();
+                                });
+                                $('#@(controlId)_' + $('select[name=@(controlId)] > option:selected').val() + '_qty_box').show();
+                            };
+                        </script>
                             }
                             break;
                         case AttributeControlType.RadioList:
@@ -54,12 +75,34 @@
                             {
                                 var attributeName = String.IsNullOrEmpty(attributeValue.PriceAdjustment) ?
                                     attributeValue.Name :
-                                    T("Products.ProductAttributes.PriceAdjustment", attributeValue.Name, attributeValue.PriceAdjustment).Text;
+                                    T("Products.ProductAttributes.PriceAdjustment", attributeValue.Name, attributeValue.PriceAdjustment,
+                                        attributeValue.UserDefinedQuantity ? T("Products.ProductAttributes.PriceAdjustment.PerItem").Text : string.Empty).Text;
                                 <li>
                                     <input id="@(controlId)_@(attributeValue.Id)" type="radio" name="@(controlId)" value="@attributeValue.Id" checked="@attributeValue.IsPreSelected" />
                                     <label for="@(controlId)_@(attributeValue.Id)">@attributeName</label>
+
+                                    @if (attributeValue.UserDefinedQuantity)
+                                    {
+                                        <div id="@(controlId)_@(attributeValue.Id)_qty_box" style="display:inline">
+                                            <label for="@(controlId)_@(attributeValue.Id)_qty">@(T("Products.ProductAttributes.PriceAdjustment.Quantity").Text)</label>
+                                            <input name="@(controlId)_@(attributeValue.Id)_qty" type="number" min="1" class="textbox" id="@(controlId)_@(attributeValue.Id)_qty" value="@(attributeValue.Quantity)" />
+                                        </div>
+                                    }
                                 </li>
                             }
+                            <script>
+                                $(document).ready(function() {
+                                    $('input[name=@(controlId)]:radio').change(showHideCheckboxQuantity);
+                                    showHideCheckboxQuantity();
+                                });
+
+                                function showHideCheckboxQuantity() {
+                                    $('input[name=@(controlId)]:radio').each(function() {
+                                        $('#' + $(this).attr('id') + '_qty_box').hide();
+                                    });
+                                    $('#@(controlId)_' + this.value + '_qty_box').show();
+                                };
+                            </script>
                         </ul>
                             }
                             break;
@@ -71,10 +114,25 @@
                             {
                                 var attributeName = String.IsNullOrEmpty(attributeValue.PriceAdjustment) ?
                                     attributeValue.Name :
-                                    T("Products.ProductAttributes.PriceAdjustment", attributeValue.Name, attributeValue.PriceAdjustment).Text;                             
+                                    T("Products.ProductAttributes.PriceAdjustment", attributeValue.Name, attributeValue.PriceAdjustment,
+                                        attributeValue.UserDefinedQuantity ? T("Products.ProductAttributes.PriceAdjustment.PerItem").Text : string.Empty).Text;                             
                                 <li>
-                                    <input id="@(controlId)_@(attributeValue.Id)" type="checkbox" name="@(controlId)" value="@attributeValue.Id" checked="@attributeValue.IsPreSelected" @(attribute.AttributeControlType == AttributeControlType.ReadonlyCheckboxes ? Html.Raw(" disabled=\"disabled\"") : null) />
+                                    <input id="@(controlId)_@(attributeValue.Id)" type="checkbox" name="@(controlId)" value="@attributeValue.Id" checked="@attributeValue.IsPreSelected" @(attribute.AttributeControlType == AttributeControlType.ReadonlyCheckboxes ? Html.Raw(" disabled=\"disabled\"") : null) 
+                                        @(attributeValue.UserDefinedQuantity ? Html.Raw(string.Format("onchange=\"$('#{0}_{1}_qty_box').toggle(this.checked)\"", controlId, attributeValue.Id)) : null) />
                                     <label for="@(controlId)_@(attributeValue.Id)">@attributeName</label>
+
+                                    @if (attributeValue.UserDefinedQuantity)
+                                    {
+                                        <div id="@(controlId)_@(attributeValue.Id)_qty_box" style="display:inline">
+                                            <label for="@(controlId)_@(attributeValue.Id)_qty">@(T("Products.ProductAttributes.PriceAdjustment.Quantity").Text)</label>
+                                            <input name="@(controlId)_@(attributeValue.Id)_qty" type="number" min="1" class="textbox" id="@(controlId)_@(attributeValue.Id)_qty" value="@(attributeValue.Quantity)" />
+                                            <script>
+                                                $(document).ready(function() {
+                                                    $('#@(controlId)_@(attributeValue.Id)_qty_box').toggle($('#@(controlId)_@(attributeValue.Id)').is(':checked'));
+                                                })
+                                            </script>
+                                        </div>
+                                    }
                                 </li>
                             }
                         </ul>
@@ -310,7 +368,13 @@
                 default:
                     break;
             }
+
+            foreach (var attributeValue in attribute.Values.Where(value => value.UserDefinedQuantity))
+            {
+                attributeChangeScriptsBuilder.AppendFormat("$('#{0}_{1}_qty').on('input propertychange paste', function(){{{2}();}});\n", controlId, attributeValue.Id, attributeChangeHandlerFuncName);
+            }
         }
+        
         //render scripts
         //almost the same implementation is used in the \Views\Product\_RentalInfo.cshtml file
         <script type="text/javascript">

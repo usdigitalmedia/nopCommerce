@@ -95,6 +95,24 @@ set @resources='
   <LocaleResource Name="Plugins.Payments.PayPalDirect.WebhookError">
     <Value>Webhook was not created (see details in the log)</Value>
   </LocaleResource>
+  <LocaleResource Name="Admin.Catalog.Products.ProductAttributes.Attributes.Values.Fields.UserDefinedQuantity">
+    <Value>User defined quantity</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Catalog.Products.ProductAttributes.Attributes.Values.Fields.UserDefinedQuantity.Hint">
+    <Value>Allow customers enter the quantity of associated product.</Value>
+  </LocaleResource>
+  <LocaleResource Name="ProductAttributes.Quantity">
+    <Value> - quantity {0}</Value>
+  </LocaleResource>
+  <LocaleResource Name="Products.ProductAttributes.PriceAdjustment">
+    <Value>{0} [{1}{2}]</Value>
+  </LocaleResource>
+  <LocaleResource Name="Products.ProductAttributes.PriceAdjustment.PerItem">
+    <Value> per item</Value>
+  </LocaleResource>
+  <LocaleResource Name="Products.ProductAttributes.PriceAdjustment.Quantity">
+    <Value>Enter quantity</Value>
+  </LocaleResource>  
 </Language>
 '
 
@@ -170,9 +188,26 @@ DROP TABLE #LocaleStringResourceTmp
 GO
 
 --new setting
- IF NOT EXISTS (SELECT 1 FROM [Setting] WHERE [name] = N'shippingsettings.hideshippingtotal')
- BEGIN
- 	INSERT [Setting] ([Name], [Value], [StoreId])
- 	VALUES (N'shippingsettings.hideshippingtotal', N'False', 0)
- END
- GO
+IF NOT EXISTS (SELECT 1 FROM [Setting] WHERE [name] = N'shippingsettings.hideshippingtotal')
+BEGIN
+	INSERT [Setting] ([Name], [Value], [StoreId])
+	VALUES (N'shippingsettings.hideshippingtotal', N'False', 0)
+END
+GO
+
+--new column
+IF NOT EXISTS (SELECT 1 FROM sys.columns WHERE object_id=object_id('[ProductAttributeValue]') and NAME='UserDefinedQuantity')
+BEGIN
+	ALTER TABLE [ProductAttributeValue]
+	ADD [UserDefinedQuantity] bit NULL
+END
+GO
+
+UPDATE [ProductAttributeValue]
+SET [UserDefinedQuantity] = 0
+WHERE [UserDefinedQuantity] IS NULL
+GO
+
+ALTER TABLE [ProductAttributeValue] ALTER COLUMN [UserDefinedQuantity] bit NOT NULL
+GO
+

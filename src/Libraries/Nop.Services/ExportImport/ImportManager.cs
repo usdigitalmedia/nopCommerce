@@ -503,6 +503,7 @@ namespace Nop.Services.ExportImport
                             var priceAdjustment = managerProductAttribute.GetProperty("PriceAdjustment").DecimalValue;
                             var weightAdjustment = managerProductAttribute.GetProperty("WeightAdjustment").DecimalValue;
                             var cost = managerProductAttribute.GetProperty("Cost").DecimalValue;
+                            var userDefinedQuantity = managerProductAttribute.GetProperty("UserDefinedQuantity").BooleanValue;
                             var quantity = managerProductAttribute.GetProperty("Quantity").IntValue;
                             var isPreSelected = managerProductAttribute.GetProperty("IsPreSelected").BooleanValue;
                             var displayOrder = managerProductAttribute.GetProperty("DisplayOrder").IntValue;
@@ -564,6 +565,7 @@ namespace Nop.Services.ExportImport
                                     DisplayOrder = displayOrder,
                                     ColorSquaresRgb = colorSquaresRgb,
                                     ImageSquaresPictureId = imageSquaresPictureId,
+                                    UserDefinedQuantity = userDefinedQuantity,
                                     Quantity = quantity,
                                     PictureId = pictureId
                                 };
@@ -580,6 +582,7 @@ namespace Nop.Services.ExportImport
                                 pav.PriceAdjustment = priceAdjustment;
                                 pav.WeightAdjustment = weightAdjustment;
                                 pav.Cost = cost;
+                                pav.UserDefinedQuantity = userDefinedQuantity;
                                 pav.Quantity = quantity;
                                 pav.IsPreSelected = isPreSelected;
                                 pav.DisplayOrder = displayOrder;

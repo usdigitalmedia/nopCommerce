@@ -660,7 +660,9 @@ namespace Nop.Web.Controllers
                             Id = attributeValue.Id,
                             Name = attributeValue.GetLocalized(x => x.Name),
                             ColorSquaresRgb = attributeValue.ColorSquaresRgb, //used with "Color squares" attribute type
-                            IsPreSelected = attributeValue.IsPreSelected
+                            IsPreSelected = attributeValue.IsPreSelected,
+                            UserDefinedQuantity = attributeValue.UserDefinedQuantity,
+                            Quantity = attributeValue.Quantity
                         };
                         attributeModel.Values.Add(valueModel);
 
