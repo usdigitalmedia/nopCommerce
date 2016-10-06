@@ -3770,7 +3770,7 @@ namespace Nop.Admin.Controllers
                         WeightAdjustment = x.WeightAdjustment,
                         WeightAdjustmentStr = x.AttributeValueType == AttributeValueType.Simple ? x.WeightAdjustment.ToString("G29") : "",
                         Cost = x.Cost,
-                        UserDefinedQuantity = x.UserDefinedQuantity,
+                        CustomerEntersQty = x.CustomerEntersQty,
                         Quantity = x.Quantity,
                         IsPreSelected = x.IsPreSelected,
                         DisplayOrder = x.DisplayOrder,
@@ -3886,8 +3886,8 @@ namespace Nop.Admin.Controllers
                     PriceAdjustment = model.PriceAdjustment,
                     WeightAdjustment = model.WeightAdjustment,
                     Cost = model.Cost,
-                    UserDefinedQuantity = model.UserDefinedQuantity,
-                    Quantity = model.UserDefinedQuantity ? 1 : model.Quantity,
+                    CustomerEntersQty = model.CustomerEntersQty,
+                    Quantity = model.CustomerEntersQty ? 1 : model.Quantity,
                     IsPreSelected = model.IsPreSelected,
                     DisplayOrder = model.DisplayOrder,
                     PictureId = model.PictureId,
@@ -3959,7 +3959,7 @@ namespace Nop.Admin.Controllers
                 PriceAdjustment = pav.PriceAdjustment,
                 WeightAdjustment = pav.WeightAdjustment,
                 Cost = pav.Cost,
-                UserDefinedQuantity = pav.UserDefinedQuantity,
+                CustomerEntersQty = pav.CustomerEntersQty,
                 Quantity = pav.Quantity,
                 IsPreSelected = pav.IsPreSelected,
                 DisplayOrder = pav.DisplayOrder,
@@ -4040,8 +4040,8 @@ namespace Nop.Admin.Controllers
                 pav.PriceAdjustment = model.PriceAdjustment;
                 pav.WeightAdjustment = model.WeightAdjustment;
                 pav.Cost = model.Cost;
-                pav.UserDefinedQuantity = model.UserDefinedQuantity;
-                pav.Quantity = model.UserDefinedQuantity ? 1 : model.Quantity;
+                pav.CustomerEntersQty = model.CustomerEntersQty;
+                pav.Quantity = model.CustomerEntersQty ? 1 : model.Quantity;
                 pav.IsPreSelected = model.IsPreSelected;
                 pav.DisplayOrder = model.DisplayOrder;
                 pav.PictureId = model.PictureId;

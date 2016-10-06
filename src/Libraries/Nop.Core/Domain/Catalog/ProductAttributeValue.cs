@@ -55,7 +55,7 @@ namespace Nop.Core.Domain.Catalog
         /// <summary>
         /// Gets or sets a value indicating whether the customer can enter the quantity of associated product (used only with AttributeValueType.AssociatedToProduct)
         /// </summary>
-        public bool UserDefinedQuantity { get; set; }
+        public bool CustomerEntersQty { get; set; }
 
         /// <summary>
         /// Gets or sets the quantity of associated product (used only with AttributeValueType.AssociatedToProduct)

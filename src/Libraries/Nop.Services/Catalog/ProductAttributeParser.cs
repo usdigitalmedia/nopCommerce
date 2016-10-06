@@ -168,6 +168,7 @@ namespace Nop.Services.Catalog
                             {
                                 //if customer enters quantity, use new entity with new quantity
                                 var oldValue = _context.LoadOriginalCopy(value);
+                                oldValue.ProductAttributeMapping = attribute;
                                 oldValue.Quantity = quantity;
                                 values.Add(oldValue);
                             }
