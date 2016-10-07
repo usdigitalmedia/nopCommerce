@@ -98,7 +98,7 @@ namespace Nop.Services.Catalog
                             {
                                 var value = attributeValue.SelectSingleNode("Value").InnerText.Trim();
                                 var quantityNode = attributeValue.SelectSingleNode("Quantity");
-                                selectedValues.Add(new Tuple<string, string>(value, quantityNode != null ? quantityNode.InnerText.Trim() : null));
+                                selectedValues.Add(new Tuple<string, string>(value, quantityNode != null ? quantityNode.InnerText.Trim() : string.Empty));
                             }
                         }
                     }
@@ -367,8 +367,9 @@ namespace Nop.Services.Catalog
         /// <param name="attributesXml1">The attributes of the first product</param>
         /// <param name="attributesXml2">The attributes of the second product</param>
         /// <param name="ignoreNonCombinableAttributes">A value indicating whether we should ignore non-combinable attributes</param>
+        /// <param name="ignoreQuantity">A value indicating whether we should ignore the quantity of attribute value entered by the customer</param>
         /// <returns>Result</returns>
-        public virtual bool AreProductAttributesEqual(string attributesXml1, string attributesXml2, bool ignoreNonCombinableAttributes)
+        public virtual bool AreProductAttributesEqual(string attributesXml1, string attributesXml2, bool ignoreNonCombinableAttributes, bool ignoreQuantity = true)
         {
             var attributes1 = ParseProductAttributeMappings(attributesXml1);
             if (ignoreNonCombinableAttributes)
@@ -392,20 +393,20 @@ namespace Nop.Services.Catalog
                     if (a1.Id == a2.Id)
                     {
                         hasAttribute = true;
-                        var values1Str = ParseValues(attributesXml1, a1.Id);
-                        var values2Str = ParseValues(attributesXml2, a2.Id);
+                        var values1Str = ParseValuesWithQuantity(attributesXml1, a1.Id);
+                        var values2Str = ParseValuesWithQuantity(attributesXml2, a2.Id);
                         if (values1Str.Count == values2Str.Count)
                         {
-                            foreach (string str1 in values1Str)
+                            foreach (var str1 in values1Str)
                             {
                                 bool hasValue = false;
-                                foreach (string str2 in values2Str)
+                                foreach (var str2 in values2Str)
                                 {
                                     //case insensitive? 
                                     //if (str1.Trim().ToLower() == str2.Trim().ToLower())
-                                    if (str1.Trim() == str2.Trim())
+                                    if (str1.Item1.Trim() == str2.Item1.Trim())
                                     {
-                                        hasValue = true;
+                                        hasValue = ignoreQuantity ? true : str1.Item2.Trim() == str2.Item2.Trim();
                                         break;
                                     }
                                 }
