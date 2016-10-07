@@ -32,7 +32,7 @@
                     {
                         case AttributeControlType.DropdownList:
                             {
-                        <select name="@(controlId)" id="@(controlId)" onchange="showHideDropdownQuantity('@controlId')">
+                        <select name="@(controlId)" id="@(controlId)" @(attribute.Values.Any(value => value.CustomerEntersQty) ? Html.Raw(string.Format("onchange=\"showHideDropdownQuantity('{0}')\"", controlId)) : null) >
                             @if (!attribute.IsRequired)
                             {
                                 <option value="0">---</option>
@@ -71,7 +71,7 @@
                                         attributeValue.CustomerEntersQty ? T("Products.ProductAttributes.PriceAdjustment.PerItem").Text : string.Empty).Text;
                                 <li>
                                     <input id="@(controlId)_@(attributeValue.Id)" type="radio" name="@(controlId)" value="@attributeValue.Id" checked="@attributeValue.IsPreSelected" 
-                                           onclick="showHideCheckboxQuantity('@controlId')"/>
+                                           @(attribute.Values.Any(value => value.CustomerEntersQty) ? Html.Raw(string.Format("onclick=\"showHideCheckboxQuantity('{0}')\"", controlId)) : null) />
                                     <label for="@(controlId)_@(attributeValue.Id)">@attributeName</label>
 
                                     @if (attributeValue.CustomerEntersQty)
